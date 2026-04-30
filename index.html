@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BSC Strategy Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Balanced Scorecard</p>
+          <h1>Dashboard реализации стратегии</h1>
+          <p class="hero__text">
+            Загрузите CSV-файл DashboardDX и получите CEO-ready обзор ключевых
+            показателей: план, факт, отклонения, динамику по годам, перспективы
+            BSC и инициативы.
+          </p>
+        </div>
+        <div class="upload-panel">
+          <label class="file-drop" for="csvFile">
+            <span class="file-drop__icon">CSV</span>
+            <span>
+              <strong>Выберите DashboardDX.csv</strong>
+              <small id="fileName">Файл еще не выбран</small>
+            </span>
+          </label>
+          <input id="csvFile" type="file" accept=".csv,text/csv" />
+          <div class="actions">
+            <button id="generateBtn" class="button button--primary" type="button">
+              Сгенерировать
+            </button>
+            <button id="clearBtn" class="button button--ghost" type="button">
+              Очистить
+            </button>
+          </div>
+          <p id="status" class="status">Готов к загрузке данных.</p>
+        </div>
+      </section>
+
+      <section id="dashboard" class="dashboard is-empty">
+        <div class="empty-state">
+          <p class="eyebrow">Preview</p>
+          <h2>Здесь появится интерактивный dashboard</h2>
+          <p>
+            После генерации сайт автоматически построит карточки KPI, графики по
+            BSC-перспективам, веткам стратегии, годам и инициативам.
+          </p>
+        </div>
+
+        <div class="dashboard-content">
+          <section class="summary-grid" id="summaryCards"></section>
+
+          <section class="grid grid--two">
+            <article class="card chart-card chart-card--large">
+              <div class="card__head">
+                <div>
+                  <p class="eyebrow">Portfolio Mix</p>
+                  <h2>Факт по KPI</h2>
+                </div>
+                <span class="pill">Последний доступный факт</span>
+              </div>
+              <canvas id="kpiDoughnut"></canvas>
+            </article>
+
+            <article class="card chart-card chart-card--large">
+              <div class="card__head">
+                <div>
+                  <p class="eyebrow">BSC Alignment</p>
+                  <h2>Перспективы по веткам стратегии</h2>
+                </div>
+                <span class="pill">Количество KPI</span>
+              </div>
+              <canvas id="perspectiveStacked"></canvas>
+            </article>
+          </section>
+
+          <section class="grid grid--two">
+            <article class="card chart-card">
+              <div class="card__head">
+                <div>
+                  <p class="eyebrow">Execution Gap</p>
+                  <h2>План vs факт по KPI</h2>
+                </div>
+                <span class="pill">Финальный факт</span>
+              </div>
+              <canvas id="planFactBar"></canvas>
+            </article>
+
+            <article class="card chart-card">
+              <div class="card__head">
+                <div>
+                  <p class="eyebrow">Trajectory</p>
+                  <h2>Динамика выполнения по годам</h2>
+                </div>
+                <span class="pill">Среднее выполнение</span>
+              </div>
+              <canvas id="yearTrend"></canvas>
+            </article>
+          </section>
+
+          <section class="grid grid--two">
+            <article class="card chart-card">
+              <div class="card__head">
+                <div>
+                  <p class="eyebrow">Strategic Themes</p>
+                  <h2>План по веткам BSC</h2>
+                </div>
+                <span class="pill">Сумма плана</span>
+              </div>
+              <canvas id="branchRadar"></canvas>
+            </article>
+
+            <article class="card chart-card">
+              <div class="card__head">
+                <div>
+                  <p class="eyebrow">Variance Map</p>
+                  <h2>Отклонения KPI</h2>
+                </div>
+                <span class="pill">Δ факт-план</span>
+              </div>
+              <div id="deltaHeatmap" class="heatmap"></div>
+            </article>
+          </section>
+
+          <section class="card table-card">
+            <div class="card__head">
+              <div>
+                <p class="eyebrow">Initiatives</p>
+                <h2>Рейтинг инициатив</h2>
+              </div>
+              <span class="pill">По последнему факту</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Инициатива</th>
+                    <th>KPI</th>
+                    <th>Перспектива</th>
+                    <th>План</th>
+                    <th>Факт</th>
+                    <th>Δ</th>
+                  </tr>
+                </thead>
+                <tbody id="initiativeRows"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
